@@ -1,31 +1,23 @@
 package com.example.ProjectCC.controller;
 
-import com.example.ProjectCC.entity.Profile;
+import com.example.ProjectCC.DTO.Profile;
 import com.example.ProjectCC.repository.ProfileRepository;
+import com.example.ProjectCC.service.HomeService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 @Controller
 public class HomeController {
 
-    private final ProfileRepository profileRepository;
+    private final HomeService homeService;
 
-    public HomeController(ProfileRepository profileRepository) {
-        this.profileRepository = profileRepository;
+    public HomeController(HomeService homeService) {
+        this.homeService = homeService;
     }
 
     @GetMapping(value = {"/", "/home"})
@@ -36,7 +28,7 @@ public class HomeController {
         }
         else {
             String userId = (String) session.getAttribute("login_id");
-            Optional<Profile> user = profileRepository.findByUserId(userId);
+            Optional<Profile> user = homeService.findProfile(userId);
 
             model.addAttribute("login_id", userId);
             if (!user.isPresent()) {

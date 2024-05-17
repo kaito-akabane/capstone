@@ -1,30 +1,29 @@
 package com.example.ProjectCC.controller;
 
-import com.example.ProjectCC.entity.Profile;
-import com.example.ProjectCC.entity.User;
+import com.example.ProjectCC.DTO.Profile;
+import com.example.ProjectCC.DTO.User;
 import com.example.ProjectCC.repository.ProfileRepository;
 import com.example.ProjectCC.repository.UserRepository;
+import com.example.ProjectCC.service.LoginService;
+import com.example.ProjectCC.service.ProfileService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
 public class LoginController {
 
-    private final UserRepository repository;
-    private final ProfileRepository profileRepository;
+    private final LoginService loginService;
+    private final ProfileService profileService;
 
-    public LoginController(UserRepository repository, ProfileRepository profileRepository) {
-        this.repository = repository;
-        this.profileRepository = profileRepository;
+    public LoginController(LoginService loginService, ProfileService profileService) {
+        this.loginService = loginService;
+        this.profileService = profileService;
     }
 
     @GetMapping("login")
@@ -35,25 +34,21 @@ public class LoginController {
     @PostMapping("/login")
     @ResponseBody
     public String checkLogin(@RequestBody Map<String, String> map) {
-        Optional<User> userInfo = repository.findById(map.get("id"));
-        if(!userInfo.isPresent()) {
-            return "idNoExist";
-        }
-        else if(!map.get("pw").equals(userInfo.get().getPw())) {
-            return "pwFailed";
-        }
-        return "correct";
+        String checkLogin = loginService.checkLogin(map);
+
+        return checkLogin;
     }
 
     @PostMapping("home")
-    public String login(HttpServletRequest request, @RequestParam("id") String id, Model model) {
-        Optional<User> user = repository.findById(id);
+    public String login(@RequestParam("id") String id, HttpServletRequest request, Model model) {
+        Optional<User> user = loginService.findById(id);
+
         HttpSession session = request.getSession();
         session.setAttribute("login_user", user.get().getName());
         session.setAttribute("login_id", user.get().getId());
 
         String userId = user.get().getId();
-        Optional<Profile> user1 = profileRepository.findByUserId(userId);
+        Optional<Profile> user1 = profileService.findByUserId(userId);
 
         model.addAttribute("login_id", userId);
         if (!user1.isPresent()) {
@@ -80,17 +75,9 @@ public class LoginController {
     @PostMapping("/findPw")
     @ResponseBody
     public String findPw(@RequestBody String id) {
-        Optional<User> member = repository.findById(id);
-        //가입된 회원일 경우
-        if (!member.isPresent()) {
-            return "wrong";
-        } else {
-            String pw = member.get().getPw();
-            String enPw = pw.substring(0, pw.length() / 2);
-            for(int i = pw.length() - enPw.length(); i > 0; i--)
-                enPw += "*";
-            return enPw;
-        }
+        String pw = loginService.findPw(id);
+
+        return pw;
     }
 
     @GetMapping("logout")
