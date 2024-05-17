@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>로그인</title>
+        <link href="/CSS/main.css" rel="stylesheet" type="text/css">
+        <link href="/CSS/login.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="main-container">
+            <div class="login">
+                <img class="logo" src="/img/logo.png">
+                <form id="form" action="/home" method="post" name="login">
+                    <input type="text" class="id" name="id" placeholder="ID" required/>
+                    <div class="idCheck" style="height: 10px; text-align: left"></div>
+                    <input type="password" class="pw" name="pw" placeholder="비밀번호" required/>
+                    <div class="pwCheck" style="height: 10px; text-align: left"></div>
+                    <button class="confirmBtn">로그인</button>
+                </form>
+            </div>
+            <div class="join"><p>계정이 없으신가요? <a href="/join">가입하기</a></p></div>
+            <div class="join"><p>비밀번호를 잊으셨나요? <a href="/findPw">비밀번호 찾기</a></p></div>
+        </div>
+        
+        <script src="/js/login.js"></script>
+    </body>
+</html>

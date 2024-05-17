@@ -1,0 +1,40 @@
+CREATE TABLE `chat_room` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`member` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `profile` (
+	`no` INT(11) NOT NULL AUTO_INCREMENT,
+	`user_id` VARCHAR(255) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`name` VARCHAR(30) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`status` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`no`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `user` (
+	`id` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`pw` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`name` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `message` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`sender` VARCHAR(30) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`receiver` VARCHAR(30) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`content` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
