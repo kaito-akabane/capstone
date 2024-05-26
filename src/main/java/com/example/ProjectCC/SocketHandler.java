@@ -44,10 +44,12 @@ public class SocketHandler extends TextWebSocketHandler {
             String msg = object.getString("message");
 
             WebSocketSession ws = (WebSocketSession)sessions.get(target);
-            if(ws.isOpen()) {
-                ws.sendMessage(new TextMessage(msg));
-            } else {
-                sessions.remove(target);
+            if(ws != null) {
+                if(ws.isOpen()) {
+                    ws.sendMessage(new TextMessage(msg));
+                } else {
+                    sessions.remove(target);
+                }
             }
         }
     }

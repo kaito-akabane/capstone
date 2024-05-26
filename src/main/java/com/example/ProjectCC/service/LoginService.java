@@ -1,21 +1,21 @@
 package com.example.ProjectCC.service;
 
-import com.example.ProjectCC.DTO.User;
-import com.example.ProjectCC.repository.ProfileRepository;
+import com.example.ProjectCC.domain.ChatRoom;
+import com.example.ProjectCC.domain.User;
 import com.example.ProjectCC.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class LoginService {
 
     private final UserRepository userRepository;
-
-    public LoginService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public String checkLogin(Map<String, String> map) {
         Optional<User> user = userRepository.findById(map.get("id"));
@@ -32,9 +32,7 @@ public class LoginService {
     }
 
     public Optional<User> findById(String id) {
-        Optional<User> user = userRepository.findById(id);
-
-        return user;
+        return userRepository.findById(id);
     }
 
     public String findPw(String id) {

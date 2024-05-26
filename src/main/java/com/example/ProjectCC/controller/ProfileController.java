@@ -1,38 +1,30 @@
 package com.example.ProjectCC.controller;
 
-import com.example.ProjectCC.DTO.Profile;
-import com.example.ProjectCC.DTO.User;
-import com.example.ProjectCC.repository.ProfileRepository;
-import com.example.ProjectCC.repository.UserRepository;
+import com.example.ProjectCC.service.ChatService;
 import com.example.ProjectCC.service.ProfileService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Optional;
-
 @Controller
+@RequiredArgsConstructor
 public class ProfileController {
 
     private final ProfileService profileService;
-
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
+    private final ChatService chatService;
 
     @GetMapping("/profile")
     public String profile(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         model.addAttribute("login_id", session.getAttribute("login_id"));
         model.addAttribute("login_user", session.getAttribute("login_user"));
+        model.addAttribute("chatRoomMsg", chatService.findChat((String) session.getAttribute("login_id")));
+        model.addAttribute("userNames", chatService.findChatName((String) session.getAttribute("login_id")));
 
         return "profile";
     }
@@ -49,6 +41,9 @@ public class ProfileController {
         profileService.saveImage(image, path, userId, name, status);
 
         model.addAttribute("login_id", userId);
+        model.addAttribute("chatRoomMsg", chatService.findChat((String) session.getAttribute("login_id")));
+        model.addAttribute("userNames", chatService.findChatName((String) session.getAttribute("login_id")));
+
         if(!status.isBlank()) {
             model.addAttribute("status", status);
         }
@@ -59,5 +54,29 @@ public class ProfileController {
         }
 
         return "home";
+    }
+
+    @GetMapping("/setting")
+    public String setting(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        model.addAttribute("login_id", session.getAttribute("login_id"));
+        model.addAttribute("login_user", session.getAttribute("login_user"));
+        model.addAttribute("chatRoomMsg", chatService.findChat((String) session.getAttribute("login_id")));
+        model.addAttribute("userNames", chatService.findChatName((String) session.getAttribute("login_id")));
+
+        return "setting";
+    }
+
+    @PostMapping("/setting")
+    public String changeId(@RequestParam(value = "id") String id) {
+        return "setting";
+    }
+
+    @PostMapping("/setting/check")
+    @ResponseBody
+    public String check(@RequestBody String id) {
+        String checkId = profileService.checkId(id);
+
+        return checkId;
     }
 }

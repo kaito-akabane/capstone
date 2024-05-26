@@ -1,11 +1,11 @@
 const menuLink = document.getElementById("menu-link");
-    const menuContent = document.querySelector("#menuContent");
-    const chatLink = document.getElementById("chat-link");
-    const chatContent = document.querySelector("#chatContent");
-    const acLink = document.getElementById("ac-link");
-    const acContent = document.querySelector("#acContent");
-    const navLinks = document.querySelectorAll(".nav-link");
-    const itemLinks = document.querySelectorAll(".list-group-item");
+const menuContent = document.querySelector("#menuContent");
+const chatLink = document.getElementById("chat-link");
+const chatContent = document.querySelector("#chatContent");
+const acLink = document.getElementById("ac-link");
+const acContent = document.querySelector("#acContent");
+const navLinks = document.querySelectorAll(".nav-link");
+const itemLinks = document.querySelectorAll(".list-group-item");
 
     navLinks.forEach(link => {
       link.addEventListener("mouseover", () => {

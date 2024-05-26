@@ -98,12 +98,14 @@
                     Chat
                 </a>
             </li>
-            <a href="/createChat" class="nav-link text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-heart" viewBox="0 0 16 16">
-                    <path d="M9 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4m13.5-8.09c1.387-1.425 4.855 1.07 0 4.277-4.854-3.207-1.387-5.702 0-4.276Z"/>
-                </svg>
-                &nbsp;&nbsp;Find
-            </a>
+            <li>
+                <a href="/createChat" class="nav-link text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-heart" viewBox="0 0 16 16">
+                        <path d="M9 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4m13.5-8.09c1.387-1.425 4.855 1.07 0 4.277-4.854-3.207-1.387-5.702 0-4.276Z"/>
+                    </svg>
+                    &nbsp;&nbsp;Find
+                </a>
+            </li>
             <li>
                 <a href="#" class="nav-link text-white" id="ac-link">
                     <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
@@ -115,7 +117,7 @@
 
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img th:src="@{'/userImg/' + ${myId} + '.png'}" alt="프로필" onerror="this.onerror=null; this.src='/img/profile.png'" width="32" height="32" class="rounded-circle me-2">
+                <img th:src="@{'/userImg/' + ${login_id} + '.png'}" alt="프로필" onerror="this.onerror=null; this.src='/img/profile.png'" width="32" height="32" class="rounded-circle me-2">
                 <strong th:text="${login_user}">user</strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
@@ -141,11 +143,9 @@
                     Chat
                 </button>
                 <div class="collapse" id="dashboard-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Overview</a></li>
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Weekly</a></li>
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Monthly</a></li>
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Annually</a></li>
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" th:each="chat : ${chatRoomMsg}">
+                        <li><a th:href="@{'/chatting?member1=' + ${login_id} + '&member2=' + ${chat.getKey()}}" class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                               th:text="${chat.getKey()}" style="margin-left: 20px"></a></li>
                     </ul>
                 </div>
             </li>
@@ -174,27 +174,13 @@
         <a href="#" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
             <span class="fs-5 fw-semibold">Chat Group</span>
         </a>
-        <div class="list-group list-group-flush border-bottom scrollarea" >
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">List group item heading</strong>
-                    <small>Wed</small>
+        <div th:each="chat : ${chatRoomMsg}" class="list-group list-group-flush border-bottom scrollarea">
+            <a th:href="@{'/chatting?member1=' + ${login_id} + '&member2=' + ${chat.getKey()}}" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                <div class="d-flex w-100 align-items-center justify-content-start">
+                    <img th:src="@{'/userImg/' + ${chat.getKey()} + '.png'}" alt="프로필" onerror="this.onerror=null; this.src='/img/profile.png'" style="width: 30px; height: 30px; border-radius: 5rem; margin-right: 10px;">
+                    <strong class="mb-1" th:text="${chat.getKey()}"></strong>
                 </div>
-                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">List group item heading</strong>
-                    <small class="text-body-secondary">Tues</small>
-                </div>
-                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">List group item heading</strong>
-                    <small class="text-body-secondary">Mon</small>
-                </div>
-                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                <div  th:text="${chat.getValue()}" class="col-10 mb-1 small" style="margin-top: 5px">message</div>
             </a>
         </div>
     </div>
@@ -230,7 +216,7 @@
 
         <div class="dropdown border-top">
             <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img th:src="@{'/userImg/' + ${myId} + '.png'}" alt="프로필" onerror="this.onerror=null; this.src='/img/profile.png'" width="24" height="24" class="rounded-circle">
+                <img th:src="@{'/userImg/' + ${login_id} + '.png'}" alt="프로필" onerror="this.onerror=null; this.src='/img/profile.png'" width="24" height="24" class="rounded-circle">
             </a>
             <ul class="dropdown-menu text-small shadow">
                 <li><a href="/setting" class="dropdown-item">Settings</a></li>
@@ -253,21 +239,9 @@
             <!-- 채팅 내용 시작 -->
             <div class="chat-content">
                 <!-- 채팅 내용 -->
-                <div class="main-chat">
-                    <div class="friend-chat">
-                        <img class="profile-img" th:src="@{'/userImg/' + ${yourId} + '.png'}" alt="프로필"  onerror="this.onerror=null; this.src='/img/profile.png'">
-                        <div class="friend-chat-col">
-                            <div class="profile-name" th:text="${yourName}">상대방</div>
-                            <span class="balloon" id="youMsgArea"></span>
-                        </div>
-                        <time datetime="07:35:00+09:00">오전 7:35</time>
-                    </div>
-                    <div class="me-chat">
-                        <div class="me-chat-col">
-                            <span class="balloon" id="meMsgArea"></span>
-                        </div>
-                        <time datetime="07:36:00+09:00">오전 7:36</time>
-                    </div>
+                <div class="main-chat" id="msgArea">
+
+
                 </div>
             </div>
             <!-- 채팅 입력창 -->
@@ -282,64 +256,6 @@
 </main>
 <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="js/home.js"></script>
-<script>
-    let socket = new WebSocket("ws://localhost:8080/websocket");
-
-    socket.onopen = function (e) {
-        console.log('open server!')
-        register();
-    };
-
-    socket.onerror = function (e) {
-        console.log(e);
-    };
-
-    socket.onmessage = function (e) {
-        let MsgArea = document.querySelector('#youMsgArea');
-        let newMsg = document.createElement('div');
-
-        newMsg.classList.add('msg');
-        newMsg.classList.add('friend-chat-col');
-        const content = e.data;
-        newMsg.innerHTML = content;
-
-        MsgArea.appendChild(newMsg);
-    };
-
-    socket.onclose = function (e) {
-        console.log(e);
-    }
-
-    function register() { //메시지 수신을 위한 서버에 id 등록하기
-        const me = document.querySelector("#myId").innerText;
-        var msg = {
-            type : "register", //메시지 구분하는 구분자 - 상대방 아이디와 메시지 포함해서 보냄
-            userid : me,
-        };
-        socket.send(JSON.stringify(msg));
-    }
-
-    function sendMsg() {
-        let MsgArea = document.querySelector('#meMsgArea');
-        let newMsg = document.createElement('div');
-        let content = document.querySelector('#content').value;
-        const you = document.querySelector("#yourId").innerText;
-        const me = document.querySelector("#myId").innerText;
-
-        var msg = {
-            type : "chat", //메시지 구분하는 구분자 - 상대방 아이디와 메시지 포함해서 보기
-            target : you,
-            message : content,
-            sender : me,
-        };
-
-        socket.send(JSON.stringify(msg));
-        document.querySelector('#content').value = "";
-
-        // 자신의 메시지인 경우
-        newMsg.innerHTML = content;
-        MsgArea.appendChild(newMsg);
-    }
-</script>
+<script src="js/chatting.js"></script>
 </body>
 </html>

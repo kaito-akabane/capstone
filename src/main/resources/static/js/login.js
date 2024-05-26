@@ -19,13 +19,13 @@ button.addEventListener("click", function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let data = xhr.responseText;
             if (data === "idNoExist") {
-                id.style.border = "2px solid red"
+                id.style.border = "3px solid red"
                 idCheck.innerText = "존재하지 않는 아이디입니다";
                 idCheck.style.color = "red";
                 pw.style.border = "1px solid #dbdbdb"
                 pwCheck.innerText = " ";
             } else if (data === "pwFailed") {
-                pw.style.border = "2px solid red"
+                pw.style.border = "3px solid red"
                 pwCheck.innerText = "잘못된 비밀번호입니다";
                 pwCheck.style.color = "red";
                 id.style.border = "1px solid #dbdbdb";

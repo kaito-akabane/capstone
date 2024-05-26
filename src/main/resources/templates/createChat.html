@@ -10,7 +10,6 @@
     <title>YJCC</title>
 
     <link rel="canonical" href="https://getbootstrap.kr/docs/5.3/examples/sidebars/">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -145,11 +144,9 @@
                     Chat
                 </button>
                 <div class="collapse" id="dashboard-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Overview</a></li>
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Weekly</a></li>
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Monthly</a></li>
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Annually</a></li>
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" th:each="chat : ${chatRoomMsg}">
+                        <li><a th:href="@{'/chatting?member1=' + ${login_id} + '&member2=' + ${chat.getKey()}}" class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                               th:text="${chat.getKey()}" style="margin-left: 20px"></a></li>
                     </ul>
                 </div>
             </li>
@@ -178,27 +175,13 @@
         <a href="#" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
             <span class="fs-5 fw-semibold">Chat Group</span>
         </a>
-        <div class="list-group list-group-flush border-bottom scrollarea" >
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">List group item heading</strong>
-                    <small>Wed</small>
+        <div th:each="chat : ${chatRoomMsg}" class="list-group list-group-flush border-bottom scrollarea">
+            <a th:href="@{'/chatting?member1=' + ${login_id} + '&member2=' + ${chat.getKey()}}" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                <div class="d-flex w-100 align-items-center justify-content-start">
+                    <img th:src="@{'/userImg/' + ${chat.getKey()} + '.png'}" alt="프로필" onerror="this.onerror=null; this.src='/img/profile.png'" style="width: 30px; height: 30px; border-radius: 5rem; margin-right: 10px;">
+                    <strong class="mb-1" th:text="${chat.getKey()}"></strong>
                 </div>
-                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">List group item heading</strong>
-                    <small class="text-body-secondary">Tues</small>
-                </div>
-                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">List group item heading</strong>
-                    <small class="text-body-secondary">Mon</small>
-                </div>
-                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                <div  th:text="${chat.getValue()}" class="col-10 mb-1 small" style="margin-top: 5px">message</div>
             </a>
         </div>
     </div>
@@ -249,7 +232,7 @@
 
     <div id="container" class="clearfix">
         <div class="content">
-            <form action="/findUser" method="get" class="needs-validation" novalidate>
+            <form action="/findUser" method="get" class="needs-validation">
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <label for="name" class="form-label">Name</label>
@@ -264,14 +247,16 @@
             <main>
                 <div>
                     <ul>
-                        <li th:each="user : ${findUser}" style="margin-top: 10px;">
-                            <a th:href="@{'/chatting?member=' + ${login_id} + ' ' + ${user.getId()}}">
+                        <div th:text="${login_id}" id="userId" style="display: none"></div>
+                        <li th:each="user : ${findUser}" style="margin-top: 20px; border-bottom: 1px solid rgb(202, 200, 200);">
+                            <div th:text="${user.getId()}" id="target" style="display:none;"></div>
+                            <a th:href="@{'/chatting?member1=' + ${login_id} + '&member2=' + ${user.getId()}}">
                                 <img th:src="@{'/userImg/' + ${user.getId()} + '.png'}" alt="프로필" class="profile-img" onerror="this.onerror=null; this.src='/img/profile.png'">
-                                <div class="talk">
-                                    <p th:text="${user.getName()}">상대방</p>
+                                <div class="talk"style="flex-grow: 1;">
+                                    <p th:text="${user.getName()}" style="font-size: 15px">상대방</p>
                                 </div>
                                 <div class="chat-status" style="margin-left: auto;">
-                                    <a href="#"><img src="/img/siren.png" width="30rem"></a>
+                                    <a href="#" class="siren"><img src="/img/siren.png"></a>
                                 </div>
                             </a>
                         </li>
@@ -280,9 +265,24 @@
             </main>
         </div>
     </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="form-group">
+                <label><input type="checkbox" value="abuse" id="abuseCheckbox"> 욕설</label>
+                <label><input type="checkbox" value="sexual" id="sexualCheckbox"> 성적발언</label>
+                <label><input type="checkbox" value="insult" id="insultCheckbox"> 인격모독</label>
+                <textarea id="text" placeholder="신고하실 내용을 적어주세요"></textarea>
+                <button class="submit-btn">신고</button>
+            </div>
+        </div>
+    </div>
 
 </main>
 <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="js/home.js"></script>
+<script src="js/createChat.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </body>
 </html>

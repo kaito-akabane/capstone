@@ -1,6 +1,6 @@
 package com.example.ProjectCC.repository;
 
-import com.example.ProjectCC.DTO.User;
+import com.example.ProjectCC.domain.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.example.ProjectCC.repository;
 
-import com.example.ProjectCC.DTO.Profile;
+import com.example.ProjectCC.domain.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

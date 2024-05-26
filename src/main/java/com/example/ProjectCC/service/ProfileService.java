@@ -1,8 +1,10 @@
 package com.example.ProjectCC.service;
 
-import com.example.ProjectCC.DTO.Profile;
+import com.example.ProjectCC.domain.Profile;
+import com.example.ProjectCC.domain.User;
 import com.example.ProjectCC.repository.ProfileRepository;
 import com.example.ProjectCC.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,20 +15,14 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProfileService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
 
-    public ProfileService(UserRepository userRepository, ProfileRepository profileRepository) {
-        this.repository = userRepository;
-        this.profileRepository = profileRepository;
-    }
-
     public Optional<Profile> findByUserId(String Id) {
-       Optional<Profile> userProfile = profileRepository.findByUserId(Id);
-
-       return userProfile;
+       return profileRepository.findByUserId(Id);
     }
 
     public void saveImage(MultipartFile image, String path, String id, String name, String status) {
@@ -59,6 +55,17 @@ public class ProfileService {
             profile.setStatus(status);
             profile.setUserId(id);
             profileRepository.save(profile);
+        }
+    }
+
+    public String checkId(String id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if(user.isPresent()) {
+            return "exist";
+        }
+        else {
+            return "idNoExist";
         }
     }
 }

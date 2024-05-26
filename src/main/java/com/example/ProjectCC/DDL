@@ -1,6 +1,7 @@
 CREATE TABLE `chat_room` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`member` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`room_num` INT(11) NOT NULL AUTO_INCREMENT,
+	`member1` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`member2` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	PRIMARY KEY (`id`) USING BTREE
 )
 COLLATE='utf8mb4_general_ci'
@@ -30,9 +31,11 @@ ENGINE=InnoDB
 
 CREATE TABLE `message` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`room_num` INT(11) NULL DEFAULT NULL,
 	`sender` VARCHAR(30) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`receiver` VARCHAR(30) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`content` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`date_time` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	PRIMARY KEY (`id`) USING BTREE
 )
 COLLATE='utf8mb4_general_ci'

@@ -1,13 +1,13 @@
 package com.example.ProjectCC.controller;
 
-import com.example.ProjectCC.DTO.Profile;
-import com.example.ProjectCC.DTO.User;
-import com.example.ProjectCC.repository.ProfileRepository;
-import com.example.ProjectCC.repository.UserRepository;
+import com.example.ProjectCC.domain.Profile;
+import com.example.ProjectCC.domain.User;
+import com.example.ProjectCC.service.ChatService;
 import com.example.ProjectCC.service.LoginService;
 import com.example.ProjectCC.service.ProfileService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +16,12 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class LoginController {
 
     private final LoginService loginService;
     private final ProfileService profileService;
-
-    public LoginController(LoginService loginService, ProfileService profileService) {
-        this.loginService = loginService;
-        this.profileService = profileService;
-    }
+    private final ChatService chatService;
 
     @GetMapping("login")
     public String loginForm() {
@@ -42,15 +39,18 @@ public class LoginController {
     @PostMapping("home")
     public String login(@RequestParam("id") String id, HttpServletRequest request, Model model) {
         Optional<User> user = loginService.findById(id);
+        String userId = user.get().getId();
 
         HttpSession session = request.getSession();
         session.setAttribute("login_user", user.get().getName());
-        session.setAttribute("login_id", user.get().getId());
+        session.setAttribute("login_id", userId);
 
-        String userId = user.get().getId();
         Optional<Profile> user1 = profileService.findByUserId(userId);
-
+        model.addAttribute("chatRoom", chatService.findChat(userId));
         model.addAttribute("login_id", userId);
+        model.addAttribute("chatRoomMsg", chatService.findChat(userId));
+        model.addAttribute("userNames", chatService.findChatName((String) session.getAttribute("login_id")));
+
         if (!user1.isPresent()) {
             model.addAttribute("login_user", session.getAttribute("login_user"));
         }

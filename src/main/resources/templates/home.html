@@ -144,11 +144,9 @@
                     Chat
                 </button>
                 <div class="collapse" id="dashboard-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Overview</a></li>
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Weekly</a></li>
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Monthly</a></li>
-                        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">&nbsp;&nbsp;&nbsp;&nbsp;Annually</a></li>
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" th:each="chat : ${chatRoomMsg}">
+                        <li><a th:href="@{'/chatting?member1=' + ${login_id} + '&member2=' + ${chat.getKey()}}" class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                               th:text="${chat.getKey()}" style="margin-left: 20px"></a></li>
                     </ul>
                 </div>
             </li>
@@ -177,27 +175,15 @@
         <a href="#" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
             <span class="fs-5 fw-semibold">Chat Group</span>
         </a>
-        <div class="list-group list-group-flush border-bottom scrollarea" >
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">List group item heading</strong>
-                    <small>Wed</small>
+        <div th:each="chat : ${chatRoomMsg}" class="list-group list-group-flush border-bottom scrollarea">
+            <a th:href="@{'/chatting?member1=' + ${login_id} + '&member2=' + ${chat.getKey()}}" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                <div class="d-flex w-100 align-items-center justify-content-start">
+                    <img th:src="@{'/userImg/' + ${chat.getKey()} + '.png'}" alt="프로필" onerror="this.onerror=null; this.src='/img/profile.png'" style="width: 30px; height: 30px; border-radius: 5rem; margin-right: 10px;">
+                    <strong class="mb-1" th:each="name : ${userNames}">
+                        <strong th:if="${name.getKey()} == ${chat.getKey()}" th:text="${name.getValue()}"></strong>
+                    </strong>
                 </div>
-                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">List group item heading</strong>
-                    <small class="text-body-secondary">Tues</small>
-                </div>
-                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">List group item heading</strong>
-                    <small class="text-body-secondary">Mon</small>
-                </div>
-                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                <div  th:text="${chat.getValue()}" class="col-10 mb-1 small" style="margin-top: 5px">message</div>
             </a>
         </div>
     </div>

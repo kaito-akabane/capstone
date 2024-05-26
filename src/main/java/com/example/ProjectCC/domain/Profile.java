@@ -1,4 +1,4 @@
-package com.example.ProjectCC.DTO;
+package com.example.ProjectCC.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,14 +7,15 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@Entity
-public class ChatRoom {
+public class Profile  {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private int id;
-
-    private String member;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int no;
+    private String userId;
+    private String name;
+    private String status;
 }

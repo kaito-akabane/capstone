@@ -1,4 +1,4 @@
-package com.example.ProjectCC.DTO;
+package com.example.ProjectCC.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
