@@ -128,4 +128,8 @@ public class ChatService {
         }
         return messageList;
     }
+
+    public List<Message> findSavedMessage(String member1, String member2) {
+        return messageRepository.findByRoomNumOrderByIdAsc(findRoomNum(member1, member2));
+    }
 }

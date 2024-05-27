@@ -1,6 +1,7 @@
 package com.example.ProjectCC.controller;
 
 import com.example.ProjectCC.domain.ChatRoom;
+import com.example.ProjectCC.domain.Message;
 import com.example.ProjectCC.service.ChatService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -55,7 +57,7 @@ public class ChatController {
         session.setAttribute("roomNum", chatService.findRoomNum(member1, member2));
         session.setAttribute("myId", member1);
         session.setAttribute("yourId", member2);
-        session.setAttribute("yourName", chatService.findNameById(member1));
+        session.setAttribute("yourName", chatService.findNameById(member2));
 
         model.addAttribute("roomNum", session.getAttribute("roomNum"));
         model.addAttribute("myId",  session.getAttribute("myId"));
@@ -64,7 +66,14 @@ public class ChatController {
         model.addAttribute("login_user", session.getAttribute("login_user"));
         model.addAttribute("chatRoomMsg", chatService.findChat(member1));
         model.addAttribute("userNames", chatService.findChatName(member1));
+        model.addAttribute("login_id", session.getAttribute("login_id"));
 
         return "chatting";
+    }
+
+    @PostMapping("/chatting/findMsg")
+    @ResponseBody
+    public List<Message> findMessage(@RequestBody Map<String, String> map) {
+        return chatService.findSavedMessage(map.get("member1"), map.get("member2"));
     }
 }
