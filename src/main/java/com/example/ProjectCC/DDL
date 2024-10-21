@@ -2,7 +2,7 @@ CREATE TABLE `chat_room` (
 	`room_num` INT(11) NOT NULL AUTO_INCREMENT,
 	`member1` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`member2` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-	PRIMARY KEY (`id`) USING BTREE
+	PRIMARY KEY (`room_num`) USING BTREE
 )
 COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB
