@@ -27,15 +27,15 @@ const itemLinks = document.querySelectorAll(".list-group-item");
       });
     });
 
-    menuLink.addEventListener("click", (event) => {
-      if (menuContent.style.display === "none") {
-        menuContent.style.display = "block"; // Show the menuContent content
-        chatContent.style.display = "none"; // Hide the chatContent content
-        acContent.style.display = "none"; // Hide the acContent content
-      } else {
-        menuContent.style.display = "none"; // Hide the menuContent content
-      }
-    });
+    // menuLink.addEventListener("click", (event) => {
+    //   if (menuContent.style.display === "none") {
+    //     menuContent.style.display = "block"; // Show the menuContent content
+    //     chatContent.style.display = "none"; // Hide the chatContent content
+    //     acContent.style.display = "none"; // Hide the acContent content
+    //   } else {
+    //     menuContent.style.display = "none"; // Hide the menuContent content
+    //   }
+    // });
 
     chatLink.addEventListener("click", (event) => {
       if (chatContent.style.display === "none") {
@@ -47,12 +47,12 @@ const itemLinks = document.querySelectorAll(".list-group-item");
       }
     });
 
-    acLink.addEventListener("click", (event) => {
-      if (acContent.style.display === "none") {
-        acContent.style.display = 'block'; // Show the acContent content
-        menuContent.style.display = "none"; // Hide the menuContent content
-        chatContent.style.display = "none"; // Hide the chatContent content
-      } else {
-        acContent.style.display = "none"; // Hide the acContent content
-      }
-    });
+    // acLink.addEventListener("click", (event) => {
+    //   if (acContent.style.display === "none") {
+    //     acContent.style.display = 'block'; // Show the acContent content
+    //     menuContent.style.display = "none"; // Hide the menuContent content
+    //     chatContent.style.display = "none"; // Hide the chatContent content
+    //   } else {
+    //     acContent.style.display = "none"; // Hide the acContent content
+    //   }
+    // });

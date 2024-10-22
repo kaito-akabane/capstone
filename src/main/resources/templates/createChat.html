@@ -74,18 +74,18 @@
 <main class="d-flex flex-nowrap">
     <h1 class="visually-hidden">Sidebars examples</h1>
 
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 320px; text-align: center">
         <a href="/home"><img src="img/logo2.png" width="250"></a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-            <li>
-                <a href="#" class="nav-link text-white" id="menu-link">
-                    <svg class="bi pe-none me-2" width="16" height="16"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-                    </svg></svg>
-                    Menu
-                </a>
-            </li>
+                <!--            <li>-->
+                <!--                <a href="#" class="nav-link text-white" id="menu-link">-->
+                <!--                    <svg class="bi pe-none me-2" width="16" height="16"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>-->
+                <!--                    </svg></svg>-->
+                <!--                    Menu-->
+                <!--                </a>-->
+                <!--            </li>-->
             <li>
                 <a href="/home" class="nav-link text-white" aria-current="page">
                     <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
@@ -107,12 +107,12 @@
                     &nbsp;&nbsp;Find
                 </a>
             </li>
-            <li>
-                <a href="#" class="nav-link text-white" id="ac-link">
-                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-                    Account
-                </a>
-            </li>
+            <!--            <li>-->
+            <!--                <a href="#" class="nav-link text-white" id="ac-link">-->
+            <!--                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>-->
+            <!--                    Account-->
+            <!--                </a>-->
+            <!--            </li>-->
         </ul>
         <hr>
 
@@ -122,7 +122,7 @@
                 <strong th:text="${login_user}">user</strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                <li><a href="/setting" class="dropdown-item">Settings</a></li>
+<!--                <li><a href="/setting" class="dropdown-item">Settings</a></li>-->
                 <li><a href="/profile" class="dropdown-item">Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a href="/logout" class="dropdown-item">Sign out</a></li>
@@ -220,8 +220,8 @@
                 <img th:src="@{'/userImg/' + ${login_id} + '.png'}" alt="프로필" onerror="this.onerror=null; this.src='/img/profile.png'" width="24" height="24" class="rounded-circle">
             </a>
             <ul class="dropdown-menu text-small shadow">
-                <li><a href="/setting" class="dropdown-item">Settings</a></li>
-                <li><a href="/profile" class="dropdown-item">Profile</a></li>
+<!--                <li><a href="/setting" class="dropdown-item">Settings</a></li>-->
+                <li><a href="/profile" class="dropdown-item">Profile</a></li>s
                 <li><hr class="dropdown-divider"></li>
                 <li><a href="/logout" class="dropdown-item">Sign out</a></li>
             </ul>
